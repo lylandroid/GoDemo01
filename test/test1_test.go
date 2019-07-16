@@ -1,6 +1,7 @@
 package main
 
 import (
+	"../map"
 	"testing"
 )
 
@@ -26,6 +27,8 @@ func TestTriangle(t *testing.T) {
 			//fmt.Printf("Err a(%d) + b(%d) = c(%d)", tt.a, tt.b, c)
 		}
 	}
+	_map.LenStringSub("jfsadjfldsfjldsjfdjfoewferd你好")
+
 }
 
 func add(a int, b int) int {
