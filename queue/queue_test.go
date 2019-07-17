@@ -15,4 +15,11 @@ func ExampleQueue_Pop() {
 	fmt.Println(q.Pop())
 	fmt.Println(q.IsEmpty())
 
+	// Output:
+	// 1
+	// 2
+	// false
+	// 3
+	// true
+
 }
