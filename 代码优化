@@ -1,5 +1,0 @@
- 1，go test -bench . -cpuprofile cpu.out
- 2，go tool pprof cpu.out
- 3，web
-
- 4, http://www.graphviz.org/
