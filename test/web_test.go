@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./err"
+	"../web/err"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 	"testing"
-	"./filelisting"
+	"../web/filelisting"
 )
 
 type testUserError string
