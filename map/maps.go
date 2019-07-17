@@ -40,8 +40,13 @@ func main() {
 	}*/
 }
 
+
+
 func LenStringSub(s string) int {
-	lastCurred := make(map[byte]int)
+	for i := 0; i < 20; i++ {
+		s = s + s
+	}
+	var lastCurred = make(map[byte]int)
 	fmt.Println("lastCurred", lastCurred)
 	startIndex := 0
 	maxLen := 0
