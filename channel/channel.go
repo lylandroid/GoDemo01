@@ -4,8 +4,9 @@ import (
 	"time"
 	"fmt"
 )
-
-func createWorker(id int) chan int {
+//外部只能发数据：chan<- int，
+// 外部只能收数据：<-chan int
+func createWorker(id int) chan<- int {
 	c := make(chan int)
 	go func() {
 		for {
@@ -16,7 +17,7 @@ func createWorker(id int) chan int {
 }
 
 func chanDemo() {
-	var channels [10] chan int
+	var channels [10] chan<- int
 	for i := 0; i < 10; i++ {
 		channels[i] = createWorker(i)
 
