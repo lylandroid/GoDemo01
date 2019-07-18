@@ -4,16 +4,31 @@ import (
 	"time"
 	"fmt"
 )
-//外部只能发数据：chan<- int，
-// 外部只能收数据：<-chan int
-func createWorker(id int) chan<- int {
-	c := make(chan int)
-	go func() {
+
+func worker(id int, c chan int) {
+	func() {
 		for {
 			fmt.Println(id, (string(<-c)))
 		}
 	}()
+}
+
+//外部只能发数据：chan<- int，
+// 外部只能收数据：<-chan int
+func createWorker(id int) chan<- int {
+	c := make(chan int)
+	go worker(id, c)
 	return c
+}
+
+func bufferChannel() {
+	c := make(chan int, 3)
+	go worker(0, c)
+	c <- 'a'
+	c <- 'b'
+	c <- 'c'
+	c <- 'd'
+	time.Sleep(time.Millisecond * 10)
 }
 
 func chanDemo() {
@@ -43,5 +58,6 @@ func chanDemo() {
 }
 
 func main() {
-	chanDemo()
+	//chanDemo()
+	bufferChannel()
 }
