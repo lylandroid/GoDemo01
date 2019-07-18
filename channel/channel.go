@@ -28,6 +28,7 @@ func createWorker(id int) chan<- int {
 	return c
 }
 
+//缓存通道
 func bufferChannel() {
 	c := make(chan int, 3)
 	go worker(0, c)
@@ -38,6 +39,7 @@ func bufferChannel() {
 	time.Sleep(time.Millisecond * 10)
 }
 
+//通道demo
 func chanDemo() {
 	var channels [10] chan<- int
 	for i := 0; i < 10; i++ {
@@ -64,6 +66,7 @@ func chanDemo() {
 	//9 106
 }
 
+//关闭通道
 func channelClose() {
 	c := make(chan int, 3)
 	go worker(0, c)
@@ -77,7 +80,7 @@ func channelClose() {
 }
 
 func main() {
-	//chanDemo()
+	chanDemo()
 	//bufferChannel()
-	channelClose()
+	//channelClose()
 }
