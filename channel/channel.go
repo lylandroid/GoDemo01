@@ -7,8 +7,15 @@ import (
 
 func worker(id int, c chan int) {
 	func() {
-		for {
-			fmt.Println(id, (string(<-c)))
+		/*for {
+			if n, ok := <-c; ok {
+				fmt.Println(id, n)
+			} else {
+				break
+			}
+		}*/
+		for v := range c {
+			fmt.Println(id, v)
 		}
 	}()
 }
@@ -57,7 +64,20 @@ func chanDemo() {
 	//9 106
 }
 
+func channelClose() {
+	c := make(chan int, 3)
+	go worker(0, c)
+	c <- 'a'
+	c <- 'b'
+	c <- 'c'
+	c <- 'd'
+	close(c)
+	time.Sleep(time.Millisecond * 10)
+
+}
+
 func main() {
 	//chanDemo()
-	bufferChannel()
+	//bufferChannel()
+	channelClose()
 }
