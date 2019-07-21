@@ -45,3 +45,14 @@ func (node *Node) TraverseFunc(f func(*Node)) {
 	node.Left.TraverseFunc(f)
 	node.Right.TraverseFunc(f)
 }
+
+func (node *Node) TraverseWithChannel() chan *Node {
+	cOut := make(chan *Node)
+	go func() {
+		node.TraverseFunc(func(node *Node) {
+			cOut <- node
+		})
+		close(cOut)
+	}()
+	return cOut
+}

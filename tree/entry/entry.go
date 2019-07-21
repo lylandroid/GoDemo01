@@ -46,12 +46,19 @@ func main() {
 	//root.Print()
 	//root.Print()
 	//root.Traverse()
-	nodeCount := 0
+
+	/*nodeCount := 0
 	root.TraverseFunc(func(node *tree.Node) {
 		nodeCount++
-	})
-	fmt.Println("nodeCount:", nodeCount)
+	})*/
+	//fmt.Println("nodeCount:", nodeCount)
 	/*fmt.Println("---------------------------------")
+
 	myRoot := myTreeNode{&root}
 	myRoot.postOrder()*/
+
+	c := root.TraverseWithChannel()
+	for node := range c {
+		fmt.Println(node.Value)
+	}
 }
