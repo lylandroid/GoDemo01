@@ -1,10 +1,10 @@
 package err
 
 import (
-	"net/http"
-	"os"
 	"../filelisting"
 	"github.com/gpmgo/gopm/modules/log"
+	"net/http"
+	"os"
 )
 
 type userError interface {

@@ -1,9 +1,10 @@
 package main
 
 import (
+	"./err"
 	"./filelisting"
 	"net/http"
-	"./err"
+	_ "net/http/pprof"
 )
 
 func main() {
