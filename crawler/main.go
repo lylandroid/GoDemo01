@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"regexp"
 )
 
 const url = "http://www.zhenai.com/zhenghun"
@@ -23,7 +24,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	body := string(b)
-	fmt.Println(body)
+	//body := string(b)
+	compile := regexp.MustCompile(`<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`)
+	result := compile.FindAllSubmatch(b, -1)
+	fmt.Println(len(result))
+	for _, v := range result {
+		fmt.Printf("%s \t %s \n", v[1], v[2])
+	}
 
 }
