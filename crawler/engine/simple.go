@@ -17,8 +17,7 @@ func (e SimpleEngine) Run(requests ...Request) {
 		} else {
 			requests = append(requests, parseResult.Requests...)
 			for _, item := range parseResult.Items {
-				fmt.Printf("Got item %v", item)
-				fmt.Println()
+				fmt.Printf("Got item %v\n", item)
 			}
 		}
 	}
@@ -28,8 +27,7 @@ func worker(r Request) (ParseResult, error) {
 	body, err := fetcher.Fetch(r.Url)
 	fmt.Println("request url：", r.Url)
 	if err != nil {
-		fmt.Printf("Fetcher: error url %s   %v", r.Url, err)
-		fmt.Println()
+		fmt.Printf("Fetcher: error url %s   %v\n", r.Url, err)
 		return ParseResult{}, err
 	}
 	return r.ParserFunc(body), nil
