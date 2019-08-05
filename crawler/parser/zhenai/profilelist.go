@@ -8,12 +8,13 @@ import (
 
 const profileListRe = `<a href="(http://album.zhenai.com/u/[0-9a-z]+)"[^>]*>([^<]+)</a>`
 
-//个人信息列表解析
+
+//城市个人信息列表解析
 func ParseProfileList(body []byte) engine.ParseResult {
 	compile := regexp.MustCompile(profileListRe)
-	submatch := compile.FindAllStringSubmatch(string(body), -1)
+	profileSubMatch := compile.FindAllStringSubmatch(string(body), -1)
 	parseResult := engine.ParseResult{}
-	for _, item := range submatch {
+	for _, item := range profileSubMatch {
 		var profile model.Profile
 		profile.Name = item[2]
 		parseResult.Requests = append(parseResult.Requests, engine.Request{

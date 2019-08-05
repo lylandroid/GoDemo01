@@ -1,5 +1,18 @@
 package main
 
+import "testing"
+import "regexp"
+import "fmt"
+
+const itemRe  = /*`<div class="list-item">^(?!<div class="item-btn">)`*/"/<div[^>]*>((?!<img[^>]*>).)+</div>/g"
+const itemRe2  = ` /<div[^>]*>((?!<div class="item-btn"[^>]*>).)+</div>/g`
+const contents  = `<div class="list-item"><div class="photo"><a href="http://album.zhenai.com/u/1092270814" target="_blank"><img src="https://photo.zastatic.com/images/photo/273068/1092270814/2601389351218351.png?scrop=1&amp;crop=1&amp;w=140&amp;h=140&amp;cpos=north" alt="时间的密语"></a></div> <div class="content"><table><tbody><tr><th><a href="http://album.zhenai.com/u/1092270814" target="_blank">时间的密语</a></th></tr> <tr><td width="180"><span class="grayL">性别：</span>男士</td> <td><span class="grayL">居住地：</span>上海</td></tr> <tr><td width="180"><span class="grayL">年龄：</span>28</td> <!----> <td><span class="grayL">月&nbsp;&nbsp;&nbsp;薪：</span>3000元以下</td></tr> <tr><td width="180"><span class="grayL">婚况：</span>未婚</td> <td width="180"><span class="grayL">身&nbsp;&nbsp;&nbsp;高：</span>211</td></tr></tbody></table> <div class="introduce">摩羯座，身份证上19901113是农历的日期，对应的公历1990年12月29日是摩羯座。<br></div></div> <div class="item-btn">打招呼</div></div>`
+//<div class="item-btn">打招呼</div>
+func TestName2(t *testing.T) {
+	compile := regexp.MustCompile(itemRe)
+	profileSubmatch := compile.FindAllStringSubmatch(contents, -1)
+	fmt.Println(profileSubmatch)
+}
 //import (
 //	"net/http"
 //	"strings"

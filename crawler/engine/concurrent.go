@@ -1,7 +1,5 @@
 package engine
 
-import "fmt"
-
 type Scheduler interface {
 	ReadyNotifier
 	Submit(Request)
@@ -13,6 +11,7 @@ type Scheduler interface {
 type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
+	ItemChan    chan interface{}
 }
 
 type ReadyNotifier interface {
@@ -34,7 +33,10 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	for {
 		result := <-out
 		for _, item := range result.Items {
-			fmt.Printf("Got item: %v\n", item)
+			//fmt.Printf("Got item: %v\n", item)
+			go func(item interface{}) {
+				e.ItemChan <- item
+			}(item)
 		}
 		for _, r := range result.Requests {
 			e.Scheduler.Submit(r)
