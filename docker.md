@@ -5,10 +5,12 @@
         2. 选择免费版 & 系统
         3. 国内镜像(版本更新会慢一点)：get.daocloud.io
         4. 配置镜像加速器（解决docker需要翻墙）
-2. docker命令使用 & nginx安装
+2. docker命令使用 & nginx安装 
         
         1. docker -v
         2. docker run -it alpine sh (linux镜像下载)
+            [win10 docker: Error response from daemon: Get  net/http: TLS handshake timeout
+                异常解决方案：https://blog.csdn.net/pop0fa/article/details/80029739]如下图
         3. docker run -d -p 80:80 nginx （docker ps 查看运行进程）
             -d:不要退出在后台一直运行
             -p:端口号
@@ -16,6 +18,7 @@
         4. 查看docker安装应用：docker images
         5. 结束进程：docker kill "进程Id"
         6. 查看日志：docker logs "进程Id"
+    ![Image text](./img/setting.png)
 3. docker Elasticsearch安装
 
         1. docker run -d -p 9200:9200 elasticsearch:6.5.0
