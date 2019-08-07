@@ -31,7 +31,11 @@
             2.2. 查询2插入结果method换成GET —> 执行后查看结果
         3. 查询所有数据：imooc/course/_search/
         4. 查看表结构：/imooc/course/_mapping
-5.          
+5. 向Elasticsearch写入数据（搜索框架：elasticsearch go client）
+
+        1. url：https://olivere.github.io/elastic/
+        2. go get github.com/olivere/elastic (安装jar,注意版本对应)
+        3. 根据官方文档编写代码
 6. 
 7. 
 8. 
