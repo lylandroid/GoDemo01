@@ -3,7 +3,6 @@ package parser
 import (
 	"../../engine"
 	"../../model"
-	"fmt"
 	"regexp"
 )
 
@@ -15,25 +14,19 @@ func ParseProfileList(body []byte) engine.ParseResult {
 	body2 := string(body)
 	compile := regexp.MustCompile(profileListRe)
 	profileSubMatch := compile.FindAllStringSubmatch(body2, -1)
-	fmt.Println("profileSubMatch",profileSubMatch)
+	//fmt.Println("profileSubMatch",profileSubMatch)
 	parseResult := engine.ParseResult{}
 	for _, item := range profileSubMatch {
 		addDataRequestQ(item[2], item[1], &parseResult)
 	}
+	//提取下一页数据
 	nextPageSubMatch := regexp.MustCompile(profileNextRe).FindAllStringSubmatch(body2, -1)
-	fmt.Println("nextPageSubMatch",nextPageSubMatch)
-	/*for _, item := range nextPageSubMatch {
-		var profile model.Profile
-		//profile.Name = name
-		parseResult.Requests = append(parseResult.Requests, engine.Request{
-			Url: item[1],
-			ParserFunc: func(bytes []byte) engine.ParseResult {
-				return ParseCityList(bytes)
-			},
-		})
-		parseResult.Items = append(parseResult.Items, profile.Name)
-	}*/
-
+	//fmt.Println("nextPageSubMatch",nextPageSubMatch)
+	for _, v := range nextPageSubMatch {
+		parseResult.Requests = append(parseResult.Requests,
+			engine.Request{Url: string(v[1]), ParserFunc: ParseProfileList})
+		//parseResult.Items = append(parseResult.Items, string(v[2]))
+	}
 	return parseResult
 }
 
