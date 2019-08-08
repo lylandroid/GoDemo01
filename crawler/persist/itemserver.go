@@ -2,8 +2,8 @@ package persist
 
 import (
 	"context"
-	"fmt"
 	"github.com/olivere/elastic"
+	"fmt"
 )
 
 func ItemServer() chan interface{} {
@@ -14,6 +14,10 @@ func ItemServer() chan interface{} {
 			item := <-out
 			itemCount ++
 			fmt.Printf("Item Saves: %d %v\n", itemCount, item)
+			/*_, err := Save(item)
+			if err != nil {
+				log.Error("Item Save: error item %v\n%v", item, err)
+			}*/
 		}
 	}()
 	return out
