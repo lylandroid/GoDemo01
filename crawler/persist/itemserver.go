@@ -1,15 +1,17 @@
 package persist
 
 import (
+	"../engine"
 	"context"
 	"github.com/gpmgo/gopm/modules/log"
 	"github.com/olivere/elastic"
 	"../model"
 	"fmt"
+	"github.com/pkg/errors"
 )
 
-func ItemServer() chan interface{} {
-	out := make(chan interface{})
+func ItemServer() chan engine.Item {
+	out := make(chan engine.Item)
 	go func() {
 		itemCount := 0
 		itemCount2 := 0
@@ -17,12 +19,12 @@ func ItemServer() chan interface{} {
 			item := <-out
 			itemCount ++
 			//fmt.Printf("Item Saves: %d %v\n", itemCount, item)
-			switch item.(type) {
+			switch item.Payload.(type) {
 			case string:
 				fmt.Printf("Item Saves: %d %v\n", itemCount, item)
 			case model.Profile:
 				itemCount2++
-				_, err := Save(item)
+				err := Save(item)
 				if err != nil {
 					log.Error("Item Save: error item %v\t%v", item, err)
 				} else {
@@ -35,37 +37,42 @@ func ItemServer() chan interface{} {
 	return out
 }
 
-func Save(item interface{}) (id string, err error) {
+func Save(item engine.Item) error {
 	index := "dating_profile"
 	client, err := elastic.NewClient(elastic.SetSniff(false))
 	if err != nil {
-		return "", err
+		return err
 	}
 	exists, err := client.IndexExists(index).Do(context.Background())
 	if err != nil {
-		return "", err
+		return err
 	}
 	if !exists {
 		// Create a new index.
 		createIndex, err := client.CreateIndex(index) /*.BodyJson(item)*/ .Do(context.Background())
 		if err != nil {
 			// Handle error
-			return "", err
+			return err
 		}
 		if !createIndex.Acknowledged {
 			// Not acknowledged
 			//panic(err)
 		}
 	}
-
-	response, err := client.Index().Index(index).
-		Type("zhenai").
+	if item.Type == "" {
+		return errors.New("most supply Type not null")
+	}
+	indexServer := client.Index().Index(index)
+	if item.Id != "" {
+		indexServer.Id(item.Id)
+	}
+	_, err = indexServer.
+		Type( /*"zhenai"*/ item.Type).
 		BodyJson(item).
 		Do(context.Background())
 	if err != nil {
-		return "", err
+		return err
 	}
-	//fmt.Printf("%+v\n", response)
-	return response.Id, nil
+	return nil
 
 }

@@ -4,6 +4,7 @@ import (
 	"../../engine"
 	"../../model"
 	"regexp"
+	"strings"
 )
 
 const profileListRe = `<a href="(http://album.zhenai.com/u/[0-9a-z]+)"[^>]*>([^<]+)</a>`
@@ -19,27 +20,37 @@ func ParseProfileList(body []byte) engine.ParseResult {
 	for _, item := range profileSubMatch {
 		//addDataRequestQ(item[2], item[1], &parseResult)
 		var profile model.Profile
+		var url = item[1]
 		profile.Name = item[2]
 		parseResult.Requests = append(parseResult.Requests, engine.Request{
-			Url: item[1],
+			Url: url,
 			ParserFunc: func(bytes []byte) engine.ParseResult {
-				return ParseProfile(bytes, profile)
+				return ParseProfile(url, bytes, profile)
 			},
 		})
-		parseResult.Items = append(parseResult.Items, profile.Name)
+		parseResult.Items = append(parseResult.Items, /* profile.Name*/ engine.Item{
+			Url:     item[1],
+			Id:      ExtractId(item[1]),
+			Payload: profile.Name,
+		})
 	}
 	//提取下一页数据
-	/*nextPageSubMatch := regexp.MustCompile(profileNextRe).FindAllStringSubmatch(body2, -1)
+	nextPageSubMatch := regexp.MustCompile(profileNextRe).FindAllStringSubmatch(body2, -1)
 	//fmt.Println("nextPageSubMatch",nextPageSubMatch)
 	for _, v := range nextPageSubMatch {
 		parseResult.Requests = append(parseResult.Requests,
 			engine.Request{Url: string(v[1]), ParserFunc: ParseProfileList})
 		//parseResult.Items = append(parseResult.Items, string(v[2]))
-	}*/
+	}
 	return parseResult
 }
 
-func addDataRequestQ(name string, url string, parseResult *engine.ParseResult) {
+func ExtractId(url string) string {
+	var splits = strings.Split(url, "/")
+	return splits[len(splits)-1]
+}
+
+/*func addDataRequestQ(name string, url string, parseResult *engine.ParseResult) {
 	var profile model.Profile
 	profile.Name = name
 	parseResult.Requests = append(parseResult.Requests, engine.Request{
@@ -48,5 +59,7 @@ func addDataRequestQ(name string, url string, parseResult *engine.ParseResult) {
 			return ParseProfile(bytes, profile)
 		},
 	})
-	parseResult.Items = append(parseResult.Items, profile.Name)
-}
+	parseResult.Items = append(parseResult.Items,
+		engine.Item{}
+	profile.Name)
+}*/

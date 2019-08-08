@@ -15,7 +15,12 @@ func ParseCityList(contents []byte) engine.ParseResult {
 	for _, v := range match {
 		parseResult.Requests = append(parseResult.Requests,
 			engine.Request{Url: string(v[1]), ParserFunc: ParseProfileList})
-		parseResult.Items = append(parseResult.Items, string(v[2]))
+		var url = string(v[1])
+		parseResult.Items = append(parseResult.Items, /* string(v[2])*/ engine.Item{
+			Url:     url,
+			Id:      ExtractId(url),
+			Payload: string(v[2]),
+		})
 	}
 	return parseResult
 }

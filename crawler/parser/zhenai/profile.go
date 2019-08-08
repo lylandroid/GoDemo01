@@ -12,7 +12,7 @@ const rootNodeProfileRe = `<div class="m-btn purple" [^>]*>([^<]+)</div>`
 var compile = regexp.MustCompile(rootNodeProfileRe)
 var compileNum = regexp.MustCompile("[0-9]+")
 
-func ParseProfile(body []byte, profile model.Profile) engine.ParseResult {
+func ParseProfile(url string, body []byte, profile model.Profile) engine.ParseResult {
 	submatch := compile.FindAllStringSubmatch(string(body), -1)
 	index := 0
 	//fmt.Println("submatch: ", len(submatch), submatch)
@@ -39,7 +39,13 @@ func ParseProfile(body []byte, profile model.Profile) engine.ParseResult {
 	}
 
 	parseResult := engine.ParseResult{}
-	parseResult.Items = append(parseResult.Items, profile)
+	parseResult.Items = append(parseResult.Items,
+		engine.Item{
+			Url:     url,
+			Type:    "zhenai",
+			Id:      ExtractId(url),
+			Payload: profile,
+		})
 	return parseResult
 
 }

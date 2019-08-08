@@ -1,12 +1,10 @@
 package main
 
 import (
-	"./persist"
 	"./engine"
-	"./model"
-	"./scheduler"
 	"./parser/zhenai"
-	"fmt"
+	"./persist"
+	"./scheduler"
 )
 
 const url = "http://www.zhenai.com/zhenghun"
@@ -28,7 +26,8 @@ func run() {
 	e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
 }
 
-func saveToElasticsearch() {
+/*func saveToElasticsearch() {
+	url := ""
 	profile := model.Profile{
 		Age:        34,
 		Height:     166,
@@ -44,6 +43,12 @@ func saveToElasticsearch() {
 		Education:  "大学本科",
 		Car:        "已购车",
 	}
-	id, err := persist.Save(profile)
+	item := engine.Item{
+		Url:     url,
+		Id:      parser.ExtractId(url),
+		Payload: profile,
+	}
+
+	err := persist.Save(item)
 	fmt.Println(id, err)
-}
+}*/

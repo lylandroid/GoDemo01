@@ -1,10 +1,13 @@
 package persist
 
-import "testing"
-import "../model"
+import (
+	"fmt"
+	"strings"
+	"testing"
+)
 
 func TestItemServer(t *testing.T) {
-	profile := model.Profile{
+	/*profile := model.Profile{
 		Age:        34,
 		Height:     166,
 		Weight:     61,
@@ -19,5 +22,8 @@ func TestItemServer(t *testing.T) {
 		Education:  "大学本科",
 		Car:        "已购车",
 	}
-	Save(profile)
+	Save(profile)*/
+	url := `http://album.zhenai.com/u/fsdafsdfsdfk`
+	var splits = strings.Split(url, "/")
+	fmt.Println(splits[len(splits)-1])
 }
