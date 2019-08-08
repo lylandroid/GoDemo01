@@ -39,6 +39,11 @@
         1. url：https://olivere.github.io/elastic/
         2. go get github.com/olivere/elastic (安装jar,注意版本对应)
         3. 根据官方文档编写代码
-6. 
+6. 清理Elasticsearch数据
+    
+        1. docker ps
+        2. docker kill ID
+        3. clear
+        4. docker run -d -p 9200:9200 elasticsearch:6.5.0
 7. 
 8. 

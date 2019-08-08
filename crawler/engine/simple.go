@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"../fetcher"
 	"fmt"
 )
 
@@ -12,7 +11,7 @@ func (e SimpleEngine) Run(requests ...Request) {
 	for len(requests) > 0 {
 		r := requests[0]
 		requests = requests[1:]
-		if parseResult, err := worker(r); err != nil {
+		if parseResult, err := Worker(r); err != nil {
 			continue
 		} else {
 			requests = append(requests, parseResult.Requests...)
@@ -21,14 +20,4 @@ func (e SimpleEngine) Run(requests ...Request) {
 			}
 		}
 	}
-}
-
-func worker(r Request) (ParseResult, error) {
-	body, err := fetcher.Fetch(r.Url)
-	fmt.Println("request url：", r.Url)
-	if err != nil {
-		fmt.Printf("Fetcher: error url %s   %v\n", r.Url, err)
-		return ParseResult{}, err
-	}
-	return r.ParserFunc(body), nil
 }
