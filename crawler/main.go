@@ -25,7 +25,7 @@ func run() {
 		ItemChan:    persist.ItemServer(),
 	}
 	//e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
-	e.Run(engine.Request{Url: shUrl, ParserFunc: parser.ParseProfileList})
+	e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
 }
 
 func saveToElasticsearch() {

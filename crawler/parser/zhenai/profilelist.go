@@ -17,16 +17,25 @@ func ParseProfileList(body []byte) engine.ParseResult {
 	//fmt.Println("profileSubMatch",profileSubMatch)
 	parseResult := engine.ParseResult{}
 	for _, item := range profileSubMatch {
-		addDataRequestQ(item[2], item[1], &parseResult)
+		//addDataRequestQ(item[2], item[1], &parseResult)
+		var profile model.Profile
+		profile.Name = item[2]
+		parseResult.Requests = append(parseResult.Requests, engine.Request{
+			Url: item[1],
+			ParserFunc: func(bytes []byte) engine.ParseResult {
+				return ParseProfile(bytes, profile)
+			},
+		})
+		parseResult.Items = append(parseResult.Items, profile.Name)
 	}
 	//提取下一页数据
-	nextPageSubMatch := regexp.MustCompile(profileNextRe).FindAllStringSubmatch(body2, -1)
+	/*nextPageSubMatch := regexp.MustCompile(profileNextRe).FindAllStringSubmatch(body2, -1)
 	//fmt.Println("nextPageSubMatch",nextPageSubMatch)
 	for _, v := range nextPageSubMatch {
 		parseResult.Requests = append(parseResult.Requests,
 			engine.Request{Url: string(v[1]), ParserFunc: ParseProfileList})
 		//parseResult.Items = append(parseResult.Items, string(v[2]))
-	}
+	}*/
 	return parseResult
 }
 
