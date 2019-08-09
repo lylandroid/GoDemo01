@@ -39,7 +39,7 @@ func ItemServer() chan engine.Item {
 
 func Save(item engine.Item) error {
 	index := "dating_profile"
-	client, err := elastic.NewClient(elastic.SetSniff(false))
+	client, err := NewClient()
 	if err != nil {
 		return err
 	}
@@ -75,4 +75,8 @@ func Save(item engine.Item) error {
 	}
 	return nil
 
+}
+
+func NewClient() (*elastic.Client, error) {
+	return elastic.NewClient(elastic.SetSniff(false))
 }
