@@ -13,7 +13,7 @@ import (
 func ItemServer(index string) chan engine.Item {
 	out := make(chan engine.Item)
 	go func() {
-		client, err := elastic.NewClient(elastic.SetSniff(false))
+		client, err := NewClient()
 		if err != nil {
 			panic(err)
 		}
