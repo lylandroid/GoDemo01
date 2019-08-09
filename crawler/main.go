@@ -15,12 +15,14 @@ func main() {
 	//saveToElasticsearch()
 }
 
+var index = "dating_profile"
+
 func run() {
 	//engine.SimpleEngine{}.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
 	e := engine.ConcurrentEngine{
 		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 10,
-		ItemChan:    persist.ItemServer(),
+		ItemChan:    persist.ItemServer(index),
 	}
 	//e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
 	e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
