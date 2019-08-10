@@ -1,16 +1,17 @@
 package controller
 
 import (
+	"../../engine"
 	"../../persist"
+	"../model"
 	"../view"
 	"context"
+	"fmt"
 	"github.com/olivere/elastic"
 	"net/http"
 	"reflect"
 	"strconv"
 	"strings"
-	"../model"
-	"../../engine"
 )
 
 type SearchResultHandler struct {
@@ -36,7 +37,7 @@ func (h SearchResultHandler) ServeHTTP(w http.ResponseWriter, req *http.Request)
 	if err != nil {
 		from = 0
 	}
-	//fmt.Fprintf(w, "q=%s,from=%d", q, from)
+	fmt.Fprintf(w, "q=%s,from=%d", q, from)
 	page, err := h.getSearchResult(q, from)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
