@@ -1,11 +1,7 @@
 package model
 
-import (
-	"../../engine"
-)
-
 type SearchResult struct {
-	Hits  int
+	Hits  int64
 	Start int
-	Items []engine.Item
+	Items []interface{}
 }
