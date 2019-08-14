@@ -44,6 +44,6 @@
         1. docker ps
         2. docker kill ID
         3. clear
-        4. docker run -d -p 9200:9200 elasticsearch:6.5.0
+        4. docker run -d -p 9200:9200 elasticsearch:6.5.0 （5.6.6）
 7. 
 8. 
