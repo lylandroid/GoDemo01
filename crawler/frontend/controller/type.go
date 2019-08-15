@@ -6,7 +6,6 @@ import (
 	"../model"
 	"../view"
 	"context"
-	"fmt"
 	"github.com/olivere/elastic"
 	"net/http"
 	"reflect"
@@ -37,7 +36,7 @@ func (h SearchResultHandler) ServeHTTP(w http.ResponseWriter, req *http.Request)
 	if err != nil {
 		from = 0
 	}
-	fmt.Fprintf(w, "q=%s,from=%d", q, from)
+	//fmt.Fprintf(w, "q=%s,from=%d", q, from)
 	page, err := h.getSearchResult(q, from)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -55,12 +54,14 @@ var index = "dating_profile"
 func (h SearchResultHandler) getSearchResult(q string, from int) (model.SearchResult, error) {
 	termQuery := elastic.NewQueryStringQuery(q)
 	var result model.SearchResult
-	searchResult, err := h.client.Search().
-		Index(index). // search in index "twitter"
+	searchResult, err := h.client.Search(index).
+		//Index(index). // search in index "twitter"
+		Type("zhenai").
 		Query(termQuery). // specify the query
 		//Sort("user", true). // sort by "user" field, ascending
 		From(from).Size(10). // take documents 0-9
-		//Pretty(true).       // pretty print request and response JSON
+		//Pretty(true). // pretty print request and response JSON
+		//Aggregation("rest_total_hits_as_int",true).
 		Do(context.Background()) // execute
 	if err != nil {
 		// Handle error
@@ -74,7 +75,5 @@ func (h SearchResultHandler) getSearchResult(q string, from int) (model.SearchRe
 			fmt.Printf("Tweet by %s: %s\n", t.User, t.Message)
 		}
 	}*/
-
 	return result, nil
-
 }

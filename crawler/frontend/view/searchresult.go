@@ -18,5 +18,5 @@ func CreateSearchResultView(filename string) SearchResultView {
 }
 
 func (s SearchResultView) Reader(w io.Writer, data model.SearchResult) error {
-	return s.template.Execute(w, data )
+	return s.template.Execute(w, data)
 }

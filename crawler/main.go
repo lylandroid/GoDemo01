@@ -12,9 +12,9 @@ const url = "http://www.zhenai.com/zhenghun"
 const shUrl = "http://www.zhenai.com/zhenghun/shanghai"
 
 func main() {
-	//run()
+	run()
 	//saveToElasticsearch()
-	inseartTestData()
+	//inseartTestData()
 }
 
 var index = "dating_profile"

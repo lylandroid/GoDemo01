@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/gpmgo/gopm/modules/log"
 	"github.com/olivere/elastic"
-	"github.com/pkg/errors"
 )
 
 func ItemServer(index string) chan engine.Item {
@@ -48,10 +47,12 @@ func Save(index string, client *elastic.Client, item engine.Item) error {
 	}
 	if !exists {
 		// Create a new index.
-		createIndex, err := client.CreateIndex(index). /*.BodyJson(item)*/ Do(context.Background())
+		//client.CreateIndex(index).Body(item.).Do(context.Background())
+		createIndex, err := client.CreateIndex(index)/*.BodyJson(&item)*/.Do(context.Background())
 		if err != nil {
 			// Handle error
-			return err
+			//return err
+			panic(err)
 		}
 		if !createIndex.Acknowledged {
 			// Not acknowledged
@@ -59,7 +60,8 @@ func Save(index string, client *elastic.Client, item engine.Item) error {
 		}
 	}
 	if item.Type == "" {
-		return errors.New("most supply Type not null")
+		//return errors.New("most supply Type not null")
+		panic(err)
 	}
 	indexServer := client.Index().Index(index)
 	if item.Id != "" {
@@ -70,7 +72,8 @@ func Save(index string, client *elastic.Client, item engine.Item) error {
 		BodyJson(item).
 		Do(context.Background())
 	if err != nil {
-		return err
+		//return err
+		panic(err)
 	}
 	return nil
 
