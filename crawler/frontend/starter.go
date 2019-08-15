@@ -22,7 +22,7 @@ func main() {
 func startServer() {
 	htmlPath := "./crawler/frontend/view/index.html"
 	//解决html中找不到本地css文件（到根目录下找对应的文件目录）
-	//http.Handle("/",http.FileServer(http.Dir("crawler/frontend/view")))
+	http.Handle("/", http.FileServer(http.Dir("crawler/frontend/view")))
 
 	http.Handle("/search", controller.CreateSearchResultHandler(htmlPath))
 	err := http.ListenAndServe(":8888", nil)

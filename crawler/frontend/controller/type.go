@@ -6,9 +6,11 @@ import (
 	"../model"
 	"../view"
 	"context"
+	"fmt"
 	"github.com/olivere/elastic"
 	"net/http"
 	"reflect"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -52,8 +54,11 @@ func (h SearchResultHandler) ServeHTTP(w http.ResponseWriter, req *http.Request)
 var index = "dating_profile"
 
 func (h SearchResultHandler) getSearchResult(q string, from int) (model.SearchResult, error) {
+	q = reWriteQueryString(q)
+	fmt.Println("re...: ", q)
 	termQuery := elastic.NewQueryStringQuery(q)
 	var result model.SearchResult
+	result.Query = q
 	searchResult, err := h.client.Search(index).
 		//Index(index). // search in index "twitter"
 		Type("zhenai").
@@ -75,5 +80,12 @@ func (h SearchResultHandler) getSearchResult(q string, from int) (model.SearchRe
 			fmt.Printf("Tweet by %s: %s\n", t.User, t.Message)
 		}
 	}*/
+	result.PrevFrom = result.Start - len(result.Items)
+	result.NextFrom = result.Start + len(result.Items)
 	return result, nil
+}
+
+func reWriteQueryString(q string) string {
+	re := regexp.MustCompile(`([A-Z][a-z]*):`)
+	return re.ReplaceAllString(q, "Payload.$1")
 }
