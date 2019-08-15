@@ -77,8 +77,8 @@
             <li><a href="search?q={{.Query}}&from={{.PrevFrom}}">上一页</a></li>
             {{end}}
             {{if lt .NextFrom .Hits}}
-            <li></li>
-            <a href="search?q={{.Query}}&from={{.NextFrom}}">下一页</a></ul>
+            <li><a href="search?q={{.Query}}&from={{.NextFrom}}">下一页</a></li>
+        </ul>
         {{end}}
         </ul>
     </nav>
