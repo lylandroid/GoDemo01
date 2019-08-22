@@ -32,7 +32,7 @@
             添加数据：{ "name":"golang","instructor":"ccmouse" }
             执行 -> 查看执行结果
             2.2. 查询2插入结果method换成GET —> 执行后查看结果
-        3. 查询所有数据：imooc/course/_search/
+        3. 查询所有数据：http://localhost:9200/imooc/course/_search/
         4. 查看表结构：/imooc/course/_mapping
 5. 向Elasticsearch写入数据（搜索框架：elasticsearch go client）
 
