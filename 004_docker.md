@@ -18,7 +18,7 @@
         4. 查看docker安装应用：docker images
         5. 结束进程：docker kill "进程Id"
         6. 查看日志：docker logs "进程Id"
-    ![Image text](./img/setting.png)
+    ![Image text](lang/img/setting.png)
 3. docker Elasticsearch安装
 
         1. docker run -d -p 9200:9200 elasticsearch:6.5.0
