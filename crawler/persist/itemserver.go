@@ -12,7 +12,7 @@ import (
 func ItemServer(index string) chan engine.Item {
 	out := make(chan engine.Item)
 	go func() {
-		client, err := NewClient()
+		client, err := NewElasticClient()
 		if err != nil {
 			panic(err)
 		}
@@ -79,6 +79,6 @@ func Save(index string, client *elastic.Client, item engine.Item) error {
 
 }
 
-func NewClient() (*elastic.Client, error) {
+func NewElasticClient() (*elastic.Client, error) {
 	return elastic.NewClient(elastic.SetSniff(false))
 }

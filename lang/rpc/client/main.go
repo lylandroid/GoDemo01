@@ -16,5 +16,4 @@ func main() {
 	var result float64
 	err = client.Call("DemoService.Div", rpcdemo.Args{10, 2}, &result)
 	fmt.Println(result, err)
-
 }

@@ -21,7 +21,7 @@ type SearchResultHandler struct {
 }
 
 func CreateSearchResultHandler(template string) SearchResultHandler {
-	client, err := persist.NewClient()
+	client, err := persist.NewElasticClient()
 	if err != nil {
 		panic(err)
 	}

@@ -32,7 +32,7 @@ func run() {
 }
 
 func inseartTestData()  {
-	client, _ := persist.NewClient()
+	client, _ := persist.NewElasticClient()
 	persist.Save(index, client, engine.Item{
 		Id:   "test_id",
 		Url:  "http://www.baidu.com",
