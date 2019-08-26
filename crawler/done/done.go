@@ -2,7 +2,6 @@ package done
 
 import (
 	"fmt"
-	"sync"
 )
 
 func doWork(id int, w worker) {
@@ -15,8 +14,4 @@ func doWork(id int, w worker) {
 type worker struct {
 	in   chan int
 	done func()
-}
-
-func createWorker(id int, wg *sync.WaitGroup) worker {
-	w := worker{}
 }

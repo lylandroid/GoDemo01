@@ -6,7 +6,7 @@ import (
 )
 
 const cityListRe = `<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`
-
+//17-6 13:05
 //城市列表解析
 func ParseCityList(contents []byte) engine.ParseResult {
 	compile := regexp.MustCompile(cityListRe)
