@@ -46,8 +46,7 @@ func sendRequest() {
 	if err != nil {
 		panic(err)
 	}
-	result := ""
 	var result2 string
 	result2, err = rpcClient.CallFun("ItemSavesService.Save", item)
-	fmt.Println(result, result2, err)
+	fmt.Println(result2, err)
 }

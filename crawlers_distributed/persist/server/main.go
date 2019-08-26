@@ -2,8 +2,10 @@ package main
 
 import (
 	".."
+	"../../config"
+	"fmt"
 )
 
 func main() {
-	persist.StartElasticServer(":1234", "dating_profile")
+	persist.StartElasticServer(fmt.Sprintf(":%d", config.AppPort), config.ElasticIndex)
 }
