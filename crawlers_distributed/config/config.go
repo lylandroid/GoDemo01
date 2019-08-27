@@ -4,9 +4,18 @@ const (
 	//AppHost     = "localhost"
 	AppHost    = "127.0.0.1"
 	AppPort    = 1234
-	AppAddress = ":"
+	AppAddress = ":1234"
+	Worker0    = 9000
 
 	ItemSaverRPCApi = "ItemSavesService.Save"
+	CrawlersServiceSaverRPCApi = "CrawlersService.Process"
 
 	ElasticIndex = "dating_profile"
+)
+
+const (
+	FuncParseCityList    = "ParseCityList"
+	FuncParseProfileList = "ParseProfileList"
+	FuncParseProfile     = "ParseProfile"
+	FuncNilParser        = "NilParser"
 )

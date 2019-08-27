@@ -41,3 +41,8 @@ func (client AppRpcClient) CallFun(funcName string, args interface{}) (string, e
 	var result string
 	return result, client.Client.Call(funcName, args, &result)
 }
+
+func (client AppRpcClient) CallFun2(funcName string, args interface{}) (interface{}, error) {
+	var result interface{}
+	return result, client.Client.Call(funcName, args, &result)
+}

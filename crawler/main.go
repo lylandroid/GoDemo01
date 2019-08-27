@@ -27,7 +27,7 @@ func run() {
 		ItemChan:    persist.ItemServer(index),
 	}
 	//e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
-	e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
+	e.Run(engine.Request{Url: url, Parser: engine.NewFuncParser(parser.ParseCityList,"ParseCityList")})
 	//e.Run(engine.Request{Url: shUrl, ParserFunc: parser.ParseProfileList})
 }
 

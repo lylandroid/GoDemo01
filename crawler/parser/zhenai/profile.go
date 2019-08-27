@@ -12,7 +12,11 @@ const rootNodeProfileRe = `<div class="m-btn purple" [^>]*>([^<]+)</div>`
 var compile = regexp.MustCompile(rootNodeProfileRe)
 var compileNum = regexp.MustCompile("[0-9]+")
 
-func ParseProfile(url string, body []byte, profile model.Profile) engine.ParseResult {
+func ParseProfile(url string, body []byte, profile2 /*model.Profile*/interface{}) engine.ParseResult {
+	var profile model.Profile
+	if(profile2 != nil){
+		profile = profile2.(model.Profile)
+	}
 	submatch := compile.FindAllStringSubmatch(string(body), -1)
 	index := 0
 	//fmt.Println("submatch: ", len(submatch), submatch)
