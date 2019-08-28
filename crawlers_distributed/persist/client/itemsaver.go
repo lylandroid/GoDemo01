@@ -29,15 +29,15 @@ func ItemServer(host string) (chan engine.Item, error) {
 			//fmt.Printf("Item Saves: %d %v\n", itemCount, item)
 			switch item.Payload.(type) {
 			case string:
-				fmt.Printf("Item Saves: %d %v\n", itemCount, item)
+				fmt.Printf("Item Saves: itemCount=%d \t item=%v\n", itemCount, item)
 			case model.Profile:
 				itemCount2++
 				result, err := appRpcClient.CallFun(config.ItemSaverRPCApi, item)
 				//err := persist.Save(index, client, item)
 				if err != nil {
-					log.Error("Item Save: error item %v\t%v\t %s \n", item, err, result)
+					log.Error("Item Save: error item=%v \t %v \t %s \n", item, err, result)
 				} else {
-					fmt.Printf("Item Saves Success: %d %v \t %s \n", itemCount2, item, result)
+					fmt.Printf("Item Saves Success: itemCount2=%d %v \t %s \n", itemCount2, item, result)
 				}
 			}
 
