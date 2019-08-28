@@ -1,13 +1,17 @@
 package main
 
 import (
-	"../../config"
 	"../../rpcsupport"
 	"../../worker"
+	"flag"
+	"fmt"
 	"log"
 )
 
+var port = flag.Int("port", 9000, "worker port")
+
 func main() {
-	log.Fatal(rpcsupport.ServeRpc( /*fmt.Sprintf(":%d", config.Worker0) */ config.AppAddress,
+	flag.Parse()
+	log.Fatal(rpcsupport.ServeRpc(fmt.Sprintf(":%d", *port) /* config.AppAddress*/,
 		worker.CrawlersService{}))
 }

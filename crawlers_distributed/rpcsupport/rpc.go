@@ -1,11 +1,11 @@
 package rpcsupport
 
 import (
+	"../../crawlers_distributed/worker"
 	"log"
 	"net"
 	"net/rpc"
 	"net/rpc/jsonrpc"
-	"../../crawlers_distributed/worker"
 )
 
 func ServeRpc(host string, openServerApi interface{}) error {
@@ -13,6 +13,8 @@ func ServeRpc(host string, openServerApi interface{}) error {
 	listener, err := net.Listen("tcp", host)
 	if err != nil {
 		return err
+	} else {
+		log.Printf("Listening  on %s", host)
 	}
 	for {
 		conn, err := listener.Accept()
@@ -29,13 +31,23 @@ type AppRpcClient struct {
 	Client *rpc.Client
 }
 
-func (client *AppRpcClient) NewRpcClient(host string) error {
-	conn, err := net.Dial("tcp", host)
+func (app *AppRpcClient) NewRpcClient(host string) error {
+	client, err := NewRpcClient(host)
 	if err != nil {
 		return err
 	}
-	client.Client = jsonrpc.NewClient(conn)
+	app.Client = client
 	return nil
+}
+
+func NewRpcClient(host string) (*rpc.Client, error) {
+	conn, err := net.Dial("tcp", host)
+	if err != nil {
+		return nil, err
+	}
+	var client *rpc.Client
+	client = jsonrpc.NewClient(conn)
+	return client, nil
 }
 
 func (client AppRpcClient) CallFun(funcName string, args interface{}) (string, error) {

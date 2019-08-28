@@ -2,14 +2,17 @@ package main
 
 import (
 	"./persist/client"
+	"flag"
+	"github.com/gpmgo/gopm/modules/log"
+	"net/rpc"
+	"strings"
 
 	"../crawler/engine"
 	"../crawler/model"
-	"../crawler/scheduler"
 	"../crawler/parser/zhenai"
 	"../crawler/persist"
-	"./config"
-
+	"../crawler/scheduler"
+	"./rpcsupport"
 	client2 "./worker/client"
 )
 
@@ -24,26 +27,52 @@ func main() {
 
 var index = "dating_profile"
 
+var (
+	itemSaverHost = flag.String("itemSaver_host", "", "ItemSaver host")
+	workerHosts   = flag.String("worker_hosts", "", "worker host(,split)")
+)
+//运行脚本：go run main.go --itemSaver_host=":" --worker_host=":9000,:9001,:9002,:9003"
 func run() {
-	//engine.SimpleEngine{}.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
-	itemChan, err := client.ItemServer(config.AppAddress)
+	flag.Parse()
+	//itemChan, err := client.ItemServer(config.AppAddress)
+	itemChan, err := client.ItemServer(*itemSaverHost)
 	if err != nil {
 		panic(err)
 	}
-	processor, err := client2.CreateProcessor()
+
+	processor := client2.CreateProcessor(CreateProcessorPool(strings.Split(*workerHosts, ",")))
 
 	e := engine.ConcurrentEngine{
-		Scheduler:   &scheduler.QueuedScheduler{},
-		WorkerCount: 10,
-		//ItemChan:    persist.ItemServer(index),
+		Scheduler:        &scheduler.QueuedScheduler{},
+		WorkerCount:      10,
 		ItemChan:         itemChan,
 		RequestProcessor: processor,
 	}
-	//e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
 	e.Run(engine.Request{
 		Url:    url,
 		Parser: engine.NewFuncParser(parser.ParseCityList, "ParseCityList")})
-	//e.Run(engine.Request{Url: shUrl, ParserFunc: parser.ParseProfileList})
+}
+
+func CreateProcessorPool(hosts [] string) chan *rpc.Client {
+	var clients [] *rpc.Client
+	for _, host := range hosts {
+		rpcClient, err := rpcsupport.NewRpcClient(host)
+		if err == nil {
+			clients = append(clients, rpcClient)
+			log.Print(0, "Connected to %s", host)
+		} else {
+			log.Error("Error connecting to %s \t %v", host, err)
+		}
+	}
+	out := make(chan *rpc.Client)
+	go func() {
+		for {
+			for _, client := range clients {
+				out <- client
+			}
+		}
+	}()
+	return out
 }
 
 func inseartTestData() {
