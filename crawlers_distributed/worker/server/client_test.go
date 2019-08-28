@@ -16,13 +16,17 @@ func TestCrawlersService(t *testing.T) {
 
 	appRpcClient := rpcsupport.AppRpcClient{}
 	appRpcClient.NewRpcClient(host)
-	result, err := appRpcClient.CallFun2(config.CrawlersServiceSaverRPCApi, worker.Request{
+
+	request := worker.Request{
 		Url: "http://album.zhenai.com/u/1511101827",
 		Parser: worker.SerializedParser{
 			FuncName: config.FuncParseProfile,
 			Args:     "雪儿只聊天",
 		},
-	})
+	}
+
+	var result worker.SerializeParseResult
+	err := appRpcClient.Client.Call(config.CrawlersServiceSaverRPCApi, request, &result)
 	if err != nil {
 		panic(err)
 	} else {

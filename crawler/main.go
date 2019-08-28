@@ -25,6 +25,7 @@ func run() {
 		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 10,
 		ItemChan:    persist.ItemServer(index),
+		RequestProcessor:engine.Worker,
 	}
 	//e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
 	e.Run(engine.Request{Url: url, Parser: engine.NewFuncParser(parser.ParseCityList,"ParseCityList")})

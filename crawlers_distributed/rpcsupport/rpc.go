@@ -5,10 +5,11 @@ import (
 	"net"
 	"net/rpc"
 	"net/rpc/jsonrpc"
+	"../../crawlers_distributed/worker"
 )
 
-func ServeRpc(host string, server interface{}) error {
-	rpc.Register(server)
+func ServeRpc(host string, openServerApi interface{}) error {
+	rpc.Register(openServerApi)
 	listener, err := net.Listen("tcp", host)
 	if err != nil {
 		return err
@@ -42,7 +43,7 @@ func (client AppRpcClient) CallFun(funcName string, args interface{}) (string, e
 	return result, client.Client.Call(funcName, args, &result)
 }
 
-func (client AppRpcClient) CallFun2(funcName string, args interface{}) (interface{}, error) {
-	var result interface{}
+func (client AppRpcClient) CallFun2(funcName string, args interface{}) (worker.SerializeParseResult, error) {
+	var result worker.SerializeParseResult
 	return result, client.Client.Call(funcName, args, &result)
 }

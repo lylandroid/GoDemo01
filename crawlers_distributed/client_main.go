@@ -9,6 +9,8 @@ import (
 	"../crawler/parser/zhenai"
 	"../crawler/persist"
 	"./config"
+
+	client2 "./worker/client"
 )
 
 const url = "http://www.zhenai.com/zhenghun"
@@ -28,14 +30,19 @@ func run() {
 	if err != nil {
 		panic(err)
 	}
+	processor, err := client2.CreateProcessor()
+
 	e := engine.ConcurrentEngine{
 		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 10,
 		//ItemChan:    persist.ItemServer(index),
-		ItemChan: itemChan,
+		ItemChan:         itemChan,
+		RequestProcessor: processor,
 	}
 	//e.Run(engine.Request{Url: url, ParserFunc: parser.ParseCityList})
-	e.Run(engine.Request{Url: url, Parser: engine.NewFuncParser(parser.ParseCityList,"ParseCityList")})
+	e.Run(engine.Request{
+		Url:    url,
+		Parser: engine.NewFuncParser(parser.ParseCityList, "ParseCityList")})
 	//e.Run(engine.Request{Url: shUrl, ParserFunc: parser.ParseProfileList})
 }
 
