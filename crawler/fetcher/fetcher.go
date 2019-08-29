@@ -6,9 +6,11 @@ import (
 	"net/http"
 	"time"
 	"math/rand"
+	"../../crawlers_distributed/config"
 )
 
-var rateLimiter = time.Tick(10 * time.Millisecond)
+//var rateLimiter = time.Tick(10 * time.Millisecond)
+var rateLimiter = time.Tick(time.Second / config.Qps)
 
 func Fetch(url string) ([]byte, error) {
 	<-rateLimiter

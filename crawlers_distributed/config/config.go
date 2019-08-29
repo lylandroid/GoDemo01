@@ -11,6 +11,8 @@ const (
 	CrawlersServiceSaverRPCApi = "CrawlersService.Process"
 
 	ElasticIndex = "dating_profile"
+
+	Qps = 20
 )
 
 const (

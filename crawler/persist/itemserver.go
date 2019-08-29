@@ -24,14 +24,14 @@ func ItemServer(index string) chan engine.Item {
 			//fmt.Printf("Item Saves: %d %v\n", itemCount, item)
 			switch item.Payload.(type) {
 			case string:
-				fmt.Printf("Item Saves: %d %v\n", itemCount, item)
+				fmt.Printf("Item Saves: itemCount=%d \t item=%v\n", itemCount, item)
 			case model.Profile:
 				itemCount2++
 				err := Save(index, client, item)
 				if err != nil {
-					log.Error("Item Save: error item %v\t%v", item, err)
+					log.Error("Item Save: error itemCount2=%d item=%v \t %v",itemCount2, item, err)
 				} else {
-					fmt.Printf("Item Saves Success: %d %v\n", itemCount2, item)
+					fmt.Printf("Item Saves Success: itemCount2=%d \t item=%v\n", itemCount2, item)
 				}
 			}
 
