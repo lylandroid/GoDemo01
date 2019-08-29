@@ -29,7 +29,7 @@ func ItemServer(index string) chan engine.Item {
 				itemCount2++
 				err := Save(index, client, item)
 				if err != nil {
-					log.Error("Item Save: error itemCount2=%d item=%v \t %v",itemCount2, item, err)
+					log.Error("Item Save: error itemCount2=%d item=%v \t %v", itemCount2, item, err)
 				} else {
 					fmt.Printf("Item Saves Success: itemCount2=%d \t item=%v\n", itemCount2, item)
 				}
@@ -46,13 +46,10 @@ func Save(index string, client *elastic.Client, item engine.Item) error {
 		return err
 	}
 	if !exists {
-		// Create a new index.
-		//client.CreateIndex(index).Body(item.).Do(context.Background())
-		createIndex, err := client.CreateIndex(index)/*.BodyJson(&item)*/.Do(context.Background())
+		createIndex, err := client.CreateIndex(index) /*.BodyJson(&item)*/ .Do(context.Background())
 		if err != nil {
 			// Handle error
-			//return err
-			panic(err)
+			return err
 		}
 		if !createIndex.Acknowledged {
 			// Not acknowledged
@@ -60,8 +57,7 @@ func Save(index string, client *elastic.Client, item engine.Item) error {
 		}
 	}
 	if item.Type == "" {
-		//return errors.New("most supply Type not null")
-		panic(err)
+		return errors.New("most supply Type not null")
 	}
 	indexServer := client.Index().Index(index)
 	if item.Id != "" {
@@ -72,8 +68,7 @@ func Save(index string, client *elastic.Client, item engine.Item) error {
 		BodyJson(item).
 		Do(context.Background())
 	if err != nil {
-		//return err
-		panic(err)
+		return err
 	}
 	return nil
 
