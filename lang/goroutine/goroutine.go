@@ -18,7 +18,7 @@ func main() {
 			for {
 				arr[i] = arr[i] + 1
 				pid := os.Getegid()
-				fmt.Println("pid: ",pid)
+				fmt.Println("pid: ",pid, "i=",arr[i])
 				runtime.Gosched() //交出控制权
 				//mpas[i] = "Hello from goroutine  i=" + string(i)
 				//fmt.Printf("Hello from goroutine  i=%d \n", i)
