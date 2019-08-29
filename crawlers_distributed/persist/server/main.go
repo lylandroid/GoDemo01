@@ -16,5 +16,5 @@ func main() {
 		fmt.Println("error must specify a port")
 		return
 	}
-	persist.StartElasticServer(fmt.Sprintf(":%d", config.AppPort), config.ElasticIndex)
+	persist.StartElasticServer(fmt.Sprintf(":%d", *port), config.ElasticIndex)
 }
